@@ -1,0 +1,67 @@
+git init  # to intial git
+
+
+Start
+  │
+  ├── Initialize Repository → `git init`
+  │
+  ├── Check Status → `git status`
+  │
+  ├── Add Files to Staging → `git add <filename>` OR `git add .`
+  │
+  ├── Commit Changes → `git commit -m "Commit message"`
+  │
+  ├── Set Remote Repository → `git remote add origin <repository-url>`
+  │
+  ├── Push Changes → `git push origin <branch-name>`
+  │
+  ├── Pull Latest Changes → `git pull origin <branch-name>`
+  │
+  ├── Branch Management
+  │       ├── Create New Branch → `git branch <branch-name>`
+  │       ├── Switch Branch → `git checkout <branch-name>`
+  │       ├── Merge Branch → `git merge <branch-name>`
+  │
+  ├── Check Logs → `git log`
+  │
+  ├── Clone Repository → `git clone <repository-url>`
+  │
+  ├── Resolve Merge Conflicts → `git diff` & `git mergetool`
+  │
+  ├── Revert Changes → `git reset --hard <commit-hash>` OR `git revert <commit-hash>`
+  │
+  └── End
+
+
+ssh-keygen -o  # login add ssh key in git hub it is in .shh/
+
+
+git init -b main        # For main branch
+
+git status 		# for untrace file check
+
+git add .		# add all files 
+
+git commit -m "Message to pass"
+
+git log 		# For log of updates
+git log --graph		
+
+git rm --cached file.extension
+
+git branch -M main 
+
+git remote add origin http://
+
+git push -u origin main
+
+git tag -a v1.0 -m "2 4rwe " # tagging 
+git show v1.0
+git push origin v1.0
+
+git checkout -b newbranchname or git switch -c new branch 
+git branch
+git switch branchname
+
+git pull origin main
+
