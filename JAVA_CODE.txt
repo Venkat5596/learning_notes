@@ -1,0 +1,68 @@
+package com.example.scopebean.coding1;
+
+
+import com.example.scopebean.async.UncaughtExceptionHandler;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
+@Configuration
+public class Config implements AsyncConfigurer {
+
+    private ThreadPoolExecutor PoolExecutor ;
+    private UncaughtExceptionHandler uncaughtExceptionHandler;
+    Config (UncaughtExceptionHandler uncaughtExceptionHandler){
+        this.uncaughtExceptionHandler = uncaughtExceptionHandler;
+    }
+
+
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler(){
+        return this.uncaughtExceptionHandler;
+    }
+
+    @Override
+    public synchronized Executor getAsyncExecutor() {
+        if(PoolExecutor == null){
+            int min = 2;
+            int max = 5;
+            int que = 5;
+
+            PoolExecutor = new ThreadPoolExecutor(min , max,4, TimeUnit.SECONDS,new ArrayBlockingQueue<>(que), new CustomieThreadFactory(), new ThreadPoolExecutor.AbortPolicy());
+        }
+        return PoolExecutor;
+    }
+
+    @Bean("Pool")
+    public Executor getExecutor(){
+        int min = 2;
+        int max = 4;
+        int que = 5;
+
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(min);
+        executor.setMaxPoolSize(max);
+        executor.setQueueCapacity(que);
+        executor.setKeepAliveSeconds(60);
+        executor.setThreadNamePrefix("Async-");
+        executor.initialize();
+
+        return executor;
+    }
+
+    private static class CustomieThreadFactory implements ThreadFactory {
+
+        AtomicInteger count = new AtomicInteger(1);
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(r);
+            t.setName("SKS - " + count.getAndIncrement());
+            return t;
+        }
+    }
+}

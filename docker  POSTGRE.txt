@@ -1,0 +1,16 @@
+docker run -d --name {1} -e POSTGRES_PASSWORD={2} postgres
+
+docker run -d --name {3} -e PGADMIN_DEFAULT_EMAIL= {4} -e PGADMIN_DEFAULT_PASSWORD={5} dpage/pgadmin4
+
+docker rm -f {1} {3}
+
+docker network create my-network
+
+docker run -d --name {1} -- network my-network -e POSTGRES_PASSWORD={2}
+postgres
+
+docker run -d --name {pgadmin} --network my-network -e POSTGRES_PASSWORD=root postgres
+
+
+docker run -d --name {3} --network my-network -e PGADMIN_DEFAULT_EMAIL= {4} -e PGADMIN_DEFAULT_PASSWORD={5} dpage/pgadmin4
+
